@@ -1,0 +1,1070 @@
+---
+// BaseLayout.astro
+import { professionals } from '../data';
+
+// Define Lucide icons as SVG strings
+const icons = {
+  User: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`,
+  Code: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16,18 22,12 16,6"></polyline><polyline points="8,6 2,12 8,18"></polyline></svg>`,
+  GraduationCap: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>`,
+  Folder: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>`,
+  Mail: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>`,
+  Sun: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path></svg>`,
+  Moon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`,
+  Menu: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>`,
+  X: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`,
+  ChevronDown: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6,9 12,15 18,9"></polyline></svg>`,
+  ExternalLink: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15,3 21,3 21,9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>`,
+  ArrowUp: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5,12 12,5 19,12"></polyline></svg>`,
+  Check: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"></polyline></svg>`,
+  AlertTriangle: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>`,
+  Send: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22,2 15,22 11,13 2,9"></polygon></svg>`,
+  Phone: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>`,
+  MapPin: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>`,
+  Github: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>`,
+  Linkedin: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>`,
+  Bot: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a2 2 0 0 0-2 2v2H8a2 2 0 0 0-2 2v2H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h2v2a2 2 0 0 0 2 2h2v2a2 2 0 0 0 2 2 2 2 0 0 0 2-2v-2h2a2 2 0 0 0 2-2v-2h2a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2h-2V8a2 2 0 0 0-2-2h-2V4a2 2 0 0 0-2-2z"></path><circle cx="9" cy="9" r="1"></circle><circle cx="15" cy="9" r="1"></circle><path d="M9 13h6"></path></svg>`,
+  Download: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7,10 12,15 17,10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>`,
+  FileText: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14,2 14,8 20,8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10,9 9,9 8,9"></polyline></svg>`,
+  // Add more as needed
+};
+---
+
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{professionals.personal.name} - Portfolio</title>
+  <meta name="description" content={`Portfolio de ${professionals.personal.name}, ${professionals.personal.title}`}>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta name="theme-color" content="#0a0f1e">
+  <script>
+    // Theme script
+    const theme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', theme);
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', theme === 'dark' ? '#0a0f1e' : '#f8fafc');
+  </script>
+</head>
+<body>
+  <!-- Header -->
+  <header id="header" class="header">
+    <div class="header-container">
+      <div class="logo">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        <span>{professionals.personal.name}</span>
+      </div>
+      <nav class="nav-desktop">
+        {professionals.navItems.map(item => (
+          <a href={item.href} class="nav-link" data-icon={item.icon}>
+            <span class="nav-icon" set:html={icons[item.icon]}></span>
+            {item.label}
+          </a>
+        ))}
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon sun" set:html={icons.Sun}></span>
+        <span class="theme-icon moon" set:html={icons.Moon}></span>
+      </button>
+      <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu">
+        <span class="menu-icon open" set:html={icons.Menu}></span>
+        <span class="menu-icon close" set:html={icons.X}></span>
+      </button>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="mobile-menu">
+      <div class="mobile-menu-content">
+        {professionals.navItems.map(item => (
+          <a href={item.href} class="mobile-nav-link" data-icon={item.icon}>
+            <span class="nav-icon" set:html={icons[item.icon]}></span>
+            {item.label}
+          </a>
+        ))}
+        <button id="theme-toggle-mobile" class="theme-toggle-mobile" aria-label="Toggle theme">
+          <span class="theme-icon sun" set:html={icons.Sun}></span>
+          <span class="theme-icon moon" set:html={icons.Moon}></span>
+        </button>
+        <div class="social-links">
+          <a href={professionals.social.linkedin} target="_blank" rel="noopener" set:html={icons.Linkedin}></a>
+          <a href={professionals.social.github} target="_blank" rel="noopener" set:html={icons.Github}></a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main>
+    <slot />
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="logo">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+          <span>{professionals.personal.name}</span>
+        </div>
+        <p>Portfolio professionnel</p>
+      </div>
+      <nav class="footer-nav">
+        {professionals.navItems.map(item => (
+          <a href={item.href}>{item.label}</a>
+        ))}
+      </nav>
+      <div class="footer-social">
+        <a href={professionals.social.linkedin} target="_blank" rel="noopener" set:html={icons.Linkedin}></a>
+        <a href={professionals.social.github} target="_blank" rel="noopener" set:html={icons.Github}></a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 {professionals.personal.name}. Built with Astro, deployed on Vercel.</p>
+    </div>
+  </footer>
+
+  <!-- Back to top -->
+  <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+    <span set:html={icons.ArrowUp}></span>
+  </button>
+
+  <!-- AI Assistant -->
+  <div id="ai-assistant" class="ai-assistant">
+    <button id="ai-toggle" class="ai-toggle" aria-label="AI Assistant">
+      <span set:html={icons.Bot}></span>
+      <span class="pulse"></span>
+    </button>
+    <div id="ai-panel" class="ai-panel">
+      <div class="ai-header">
+        <div class="ai-avatar">
+          <span set:html={icons.Bot}></span>
+        </div>
+        <div class="ai-info">
+          <h3>Portfolio AI</h3>
+          <span class="status">Online</span>
+        </div>
+        <button id="ai-close" class="ai-close" set:html={icons.X}></button>
+      </div>
+      <div id="ai-messages" class="ai-messages">
+        <div class="message bot">
+          <div class="message-avatar">
+            <span set:html={icons.Bot}></span>
+          </div>
+          <div class="message-content">
+            <p>Bonjour ! Je suis l'IA de ce portfolio. Comment puis-je vous aider ?</p>
+            <div class="quick-actions">
+              <button class="quick-btn" data-query="Qui est Mohammed Khadeir ?">Qui est Mohammed ?</button>
+              <button class="quick-btn" data-query="Compétences">Compétences</button>
+              <button class="quick-btn" data-query="Projets">Projets</button>
+              <button class="quick-btn" data-query="Contact">Contact</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ai-input">
+        <input type="text" id="ai-input-field" placeholder="Posez votre question...">
+        <button id="ai-send" set:html={icons.Send}></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Assistant -->
+  <div id="ai-assistant" class="ai-assistant">
+    <button id="ai-toggle" class="ai-toggle" aria-label="AI Assistant">
+      <span set:html={icons.Bot}></span>
+      <span class="pulse"></span>
+    </button>
+    <div id="ai-panel" class="ai-panel">
+      <div class="ai-header">
+        <div class="ai-avatar">
+          <span set:html={icons.Bot}></span>
+        </div>
+        <div class="ai-info">
+          <h3>Portfolio AI</h3>
+          <span class="status">Online</span>
+        </div>
+        <button id="ai-close" class="ai-close" set:html={icons.X}></button>
+      </div>
+      <div id="ai-messages" class="ai-messages">
+        <div class="message bot">
+          <div class="message-avatar">
+            <span set:html={icons.Bot}></span>
+          </div>
+          <div class="message-content">
+            <p>Bonjour ! Je suis l'IA de ce portfolio. Comment puis-je vous aider ?</p>
+            <div class="quick-actions">
+              <button class="quick-btn" data-query="Qui est Mohammed Khadeir ?">Qui est Mohammed ?</button>
+              <button class="quick-btn" data-query="Compétences">Compétences</button>
+              <button class="quick-btn" data-query="Projets">Projets</button>
+              <button class="quick-btn" data-query="Contact">Contact</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ai-input">
+        <input type="text" id="ai-input-field" placeholder="Posez votre question...">
+        <button id="ai-send" set:html={icons.Send}></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Resume Export Modal -->
+  <div id="resume-modal" class="modal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Télécharger CV</h2>
+        <button id="modal-close" class="modal-close" set:html={icons.X}></button>
+      </div>
+      <div class="modal-body">
+        <div class="export-options">
+          <div class="export-option" data-format="pdf">
+            <div class="option-icon" set:html={icons.FileText}></div>
+            <h3>PDF Document</h3>
+            <p>Best for online applications & email</p>
+          </div>
+          <div class="export-option" data-format="docx">
+            <div class="option-icon" set:html={icons.FileText}></div>
+            <h3>Word Document</h3>
+            <p>Best for editing & ATS systems</p>
+          </div>
+        </div>
+        <div id="export-status" class="export-status"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    import { inject } from '@vercel/analytics';
+    inject();
+  </script>
+
+  <script>
+    // Theme toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+    const html = document.documentElement;
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+
+    function toggleTheme() {
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      metaTheme.setAttribute('content', newTheme === 'dark' ? '#0a0f1e' : '#f8fafc');
+    }
+
+    themeToggle.addEventListener('click', toggleTheme);
+    themeToggleMobile.addEventListener('click', toggleTheme);
+
+    // Mobile menu
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const body = document.body;
+
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+      body.classList.toggle('menu-open');
+    });
+
+    // Close menu on link click
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        body.classList.remove('menu-open');
+      });
+    });
+
+    // Back to top
+    const backToTop = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 500) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Active nav link
+    const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+    const sections = document.querySelectorAll('section[id]');
+
+    function setActiveLink() {
+      const scrollY = window.scrollY;
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        const sectionHeight = section.offsetHeight;
+        const sectionId = section.getAttribute('id');
+        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+          navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${sectionId}`) {
+              link.classList.add('active');
+            }
+          });
+        }
+      });
+    }
+
+    window.addEventListener('scroll', setActiveLink);
+    setActiveLink();
+
+    // AI Assistant
+    const aiToggle = document.getElementById('ai-toggle');
+    const aiPanel = document.getElementById('ai-panel');
+    const aiClose = document.getElementById('ai-close');
+    const aiInput = document.getElementById('ai-input-field');
+    const aiSend = document.getElementById('ai-send');
+    const aiMessages = document.getElementById('ai-messages');
+
+    aiToggle.addEventListener('click', () => {
+      aiPanel.classList.toggle('open');
+    });
+
+    aiClose.addEventListener('click', () => {
+      aiPanel.classList.remove('open');
+    });
+
+    function addMessage(content, isBot = false) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${isBot ? 'bot' : 'user'}`;
+      messageDiv.innerHTML = `
+        ${isBot ? '<div class="message-avatar"><span>' + icons.Bot + '</span></div>' : ''}
+        <div class="message-content">
+          <p>${content}</p>
+        </div>
+      `;
+      aiMessages.appendChild(messageDiv);
+      aiMessages.scrollTop = aiMessages.scrollHeight;
+    }
+
+    function getResponse(query) {
+      const lowerQuery = query.toLowerCase();
+      if (lowerQuery.includes('qui') || lowerQuery.includes('présent')) {
+        return `Je suis Mohammed Khadeir, étudiant en informatique passionné par le développement web.`;
+      }
+      if (lowerQuery.includes('compétence')) {
+        return `Mes compétences incluent HTML, CSS, JavaScript, Astro, React, Node.js, etc.`;
+      }
+      if (lowerQuery.includes('projet')) {
+        return `J'ai réalisé un portfolio personnel avec Astro et Vercel.`;
+      }
+      if (lowerQuery.includes('contact')) {
+        return `Vous pouvez me contacter à m,khadeir@esisa.ac.ma`;
+      }
+      return `Désolé, je n'ai pas compris. Essayez de demander sur mes compétences, projets, etc.`;
+    }
+
+    aiSend.addEventListener('click', () => {
+      const query = aiInput.value.trim();
+      if (query) {
+        addMessage(query);
+        aiInput.value = '';
+        setTimeout(() => {
+          const response = getResponse(query);
+          addMessage(response, true);
+        }, 500);
+      }
+    });
+
+    aiInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        aiSend.click();
+      }
+    });
+
+    document.querySelectorAll('.quick-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const query = btn.dataset.query;
+        addMessage(query);
+        setTimeout(() => {
+          const response = getResponse(query);
+          addMessage(response, true);
+        }, 500);
+      });
+    });
+
+    // Resume export
+    const resumeBtn = document.getElementById('resume-download');
+    const resumeModal = document.getElementById('resume-modal');
+    const modalClose = document.getElementById('modal-close');
+    const exportOptions = document.querySelectorAll('.export-option');
+    const exportStatus = document.getElementById('export-status');
+
+    if (resumeBtn) {
+      resumeBtn.addEventListener('click', () => {
+        resumeModal.classList.add('open');
+      });
+    }
+
+    modalClose.addEventListener('click', () => {
+      resumeModal.classList.remove('open');
+    });
+
+    resumeModal.querySelector('.modal-backdrop').addEventListener('click', () => {
+      resumeModal.classList.remove('open');
+    });
+
+    exportOptions.forEach(option => {
+      option.addEventListener('click', async () => {
+        const format = option.dataset.format;
+        exportStatus.innerHTML = '<div class="loading">Génération en cours...</div>';
+        // Simulate export
+        setTimeout(() => {
+          exportStatus.innerHTML = '<div class="success">Téléchargement prêt !</div>';
+          setTimeout(() => {
+            resumeModal.classList.remove('open');
+          }, 2000);
+        }, 2000);
+      });
+    });
+  </script>
+</body>
+</html>
+
+<style>
+  :root {
+    --bg-primary: #0a0f1e;
+    --bg-secondary: #111827;
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+    --text-muted: #9ca3af;
+    --primary: #3b82f6;
+    --accent: #8b5cf6;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --border: #374151;
+    --glow: rgba(59, 130, 246, 0.5);
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --radius: 8px;
+    --transition: all 0.3s ease;
+  }
+
+  [data-theme="light"] {
+    --bg-primary: #f8fafc;
+    --bg-secondary: #ffffff;
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --text-muted: #64748b;
+    --primary: #2563eb;
+    --accent: #7c3aed;
+    --success: #059669;
+    --warning: #d97706;
+    --border: #e2e8f0;
+    --glow: rgba(37, 99, 235, 0.5);
+    --glass-bg: rgba(0, 0, 0, 0.05);
+    --glass-border: rgba(0, 0, 0, 0.1);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Header */
+  .header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--glass-border);
+    transition: var(--transition);
+  }
+
+  .header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    font-size: 1.25rem;
+  }
+
+  .nav-desktop {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: var(--transition);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius);
+  }
+
+  .nav-link:hover, .nav-link.active {
+    color: var(--primary);
+    background: var(--glass-bg);
+  }
+
+  .theme-toggle, .menu-toggle {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: var(--radius);
+    transition: var(--transition);
+  }
+
+  .theme-toggle:hover, .menu-toggle:hover {
+    background: var(--glass-bg);
+  }
+
+  .theme-icon.moon {
+    display: none;
+  }
+
+  [data-theme="light"] .theme-icon.sun {
+    display: none;
+  }
+
+  [data-theme="light"] .theme-icon.moon {
+    display: block;
+  }
+
+  .menu-toggle .menu-icon.close {
+    display: none;
+  }
+
+  .mobile-menu {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 80px);
+    background: var(--bg-primary);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 999;
+  }
+
+  .mobile-menu.open {
+    transform: translateX(0);
+  }
+
+  .mobile-menu-content {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .mobile-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    padding: 1rem;
+    border-radius: var(--radius);
+    transition: var(--transition);
+  }
+
+  .mobile-nav-link:hover {
+    background: var(--glass-bg);
+  }
+
+  .social-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .social-links a {
+    color: var(--text-secondary);
+    transition: var(--transition);
+  }
+
+  .social-links a:hover {
+    color: var(--primary);
+  }
+
+  /* Footer */
+  .footer {
+    background: var(--bg-secondary);
+    padding: 3rem 0 1rem;
+    margin-top: 5rem;
+  }
+
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .footer-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .footer-nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: var(--transition);
+  }
+
+  .footer-nav a:hover {
+    color: var(--primary);
+  }
+
+  .footer-social {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .footer-social a {
+    color: var(--text-secondary);
+    transition: var(--transition);
+  }
+
+  .footer-social a:hover {
+    color: var(--primary);
+  }
+
+  .footer-bottom {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--text-muted);
+  }
+
+  /* Back to top */
+  .back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(100px);
+    transition: var(--transition);
+    z-index: 100;
+  }
+
+  .back-to-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .back-to-top:hover {
+    background: var(--primary);
+    color: white;
+  }
+
+  /* AI Assistant */
+  .ai-assistant {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    z-index: 100;
+  }
+
+  .ai-toggle {
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    box-shadow: var(--shadow-lg);
+    transition: var(--transition);
+  }
+
+  .ai-toggle:hover {
+    transform: scale(1.1);
+  }
+
+  .pulse {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--primary);
+    animation: pulse 2s infinite;
+    opacity: 0.3;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); opacity: 0.3; }
+    100% { transform: scale(1.2); opacity: 0; }
+  }
+
+  .ai-panel {
+    position: absolute;
+    bottom: 80px;
+    left: 0;
+    width: 350px;
+    height: 500px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+    transform: scale(0) translateY(20px);
+    opacity: 0;
+    transition: var(--transition);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .ai-panel.open {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+
+  .ai-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .ai-avatar {
+    width: 40px;
+    height: 40px;
+    background: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+
+  .ai-info h3 {
+    font-size: 1rem;
+    margin: 0;
+  }
+
+  .status {
+    color: var(--success);
+    font-size: 0.8rem;
+  }
+
+  .ai-close {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+
+  .ai-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .message {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .message.bot {
+    align-self: flex-start;
+  }
+
+  .message.user {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+  }
+
+  .message-avatar {
+    width: 30px;
+    height: 30px;
+    background: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.8rem;
+  }
+
+  .message.user .message-avatar {
+    background: var(--accent);
+  }
+
+  .message-content {
+    max-width: 250px;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius);
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+  }
+
+  .message.user .message-content {
+    background: var(--primary);
+    color: white;
+  }
+
+  .quick-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .quick-btn {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  .quick-btn:hover {
+    background: var(--primary);
+    color: white;
+  }
+
+  .ai-input {
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .ai-input input {
+    flex: 1;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    padding: 0.5rem;
+    border-radius: var(--radius);
+  }
+
+  .ai-input button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  .ai-input button:hover {
+    background: var(--accent);
+  }
+
+  /* Modal */
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+    z-index: 1000;
+  }
+
+  .modal.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+  }
+
+  .modal-content {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .modal-header h2 {
+    margin: 0;
+  }
+
+  .modal-close {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+
+  .modal-body {
+    padding: 1rem;
+  }
+
+  .export-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .export-option {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    padding: 1rem;
+    border-radius: var(--radius);
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+
+  .export-option:hover {
+    background: var(--primary);
+    color: white;
+  }
+
+  .export-status {
+    text-align: center;
+  }
+
+  .loading {
+    color: var(--primary);
+  }
+
+  .success {
+    color: var(--success);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .header-container {
+      padding: 0 1rem;
+    }
+
+    .nav-desktop {
+      display: none;
+    }
+
+    .footer-container {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .ai-panel {
+      width: calc(100vw - 4rem);
+      height: 400px;
+    }
+
+    .export-options {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

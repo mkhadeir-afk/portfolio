@@ -1,0 +1,201 @@
+---
+// Education.astro
+import { professionals } from '../data';
+
+const icons = {
+  GraduationCap: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>`,
+  ExternalLink: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15,3 21,3 21,9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>`
+};
+---
+
+<section id="education" class="education reveal">
+  <div class="education-container">
+    <h2 class="section-title">Éducation</h2>
+    <div class="timeline">
+      {professionals.education.map((edu, index) => (
+        <div class="timeline-item" class:list={{ latest: index === 0 }}>
+          <div class="timeline-marker">
+            <div class="timeline-dot"></div>
+            <div class="timeline-glow"></div>
+          </div>
+          {index < professionals.education.length - 1 && <div class="timeline-line"></div>}
+          <div class="timeline-content">
+            <div class="timeline-badge">{edu.period}</div>
+            <h3 class="timeline-degree">{edu.degree}</h3>
+            <p class="timeline-field">{edu.field}</p>
+            <a href={edu.link} target="_blank" rel="noopener" class="timeline-institution">
+              {edu.institution}
+              <span set:html={icons.ExternalLink}></span>
+            </a>
+            <p class="timeline-description">{edu.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .education {
+    padding: 5rem 2rem;
+    background: var(--bg-secondary);
+  }
+
+  .education-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-title {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    color: var(--text-primary);
+    position: relative;
+  }
+
+  .section-title::after {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    margin: 1rem auto 0;
+  }
+
+  .timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .timeline-item {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    position: relative;
+  }
+
+  .timeline-marker {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .timeline-dot {
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    border-radius: 50%;
+    position: relative;
+    z-index: 2;
+  }
+
+  .timeline-glow {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    border-radius: 50%;
+    opacity: 0.3;
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes glow {
+    0% { transform: scale(1); opacity: 0.3; }
+    100% { transform: scale(1.2); opacity: 0.1; }
+  }
+
+  .timeline-line {
+    position: absolute;
+    left: 10px;
+    top: 30px;
+    bottom: -3rem;
+    width: 2px;
+    background: var(--border);
+  }
+
+  .timeline-content {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    flex: 1;
+    transition: var(--transition);
+  }
+
+  .timeline-content:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .timeline-badge {
+    background: var(--primary);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 1rem;
+  }
+
+  .timeline-item.latest .timeline-badge {
+    background: var(--accent);
+  }
+
+  .timeline-degree {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .timeline-field {
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .timeline-institution {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    transition: var(--transition);
+  }
+
+  .timeline-institution:hover {
+    color: var(--primary);
+  }
+
+  .timeline-description {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .timeline-item {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .timeline-line {
+      display: none;
+    }
+
+    .section-title {
+      font-size: 2rem;
+    }
+
+    .timeline-content {
+      padding: 1.5rem;
+    }
+  }
+</style>

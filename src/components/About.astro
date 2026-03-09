@@ -1,0 +1,122 @@
+---
+// About.astro
+import { professionals } from '../data';
+---
+
+<section id="about" class="about reveal">
+  <div class="about-container">
+    <h2 class="section-title">À propos</h2>
+    <div class="about-grid">
+      <div class="about-card">
+        <div class="card-accent"></div>
+        <div class="card-number">01</div>
+        <p>{professionals.personal.subtitle}</p>
+      </div>
+      <div class="about-card">
+        <div class="card-accent"></div>
+        <div class="card-number">02</div>
+        <p>Étudiant en informatique passionné par les technologies web modernes et le développement d'applications innovantes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    padding: 5rem 2rem;
+    background: var(--bg-secondary);
+  }
+
+  .about-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-title {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    color: var(--text-primary);
+    position: relative;
+  }
+
+  .section-title::after {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    margin: 1rem auto 0;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .about-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition);
+    cursor: pointer;
+  }
+
+  .about-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .about-card:hover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  }
+
+  .card-accent {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  }
+
+  .card-number {
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    opacity: 0.3;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .about-card p {
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (max-width: 768px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .section-title {
+      font-size: 2rem;
+    }
+  }
+</style>
