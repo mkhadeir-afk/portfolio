@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en" data-l="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simo Khadeir · Multilingual Web Developer</title>
+<meta name="description" content="Mohammed Khadeir (Simo), web developer in Morocco. Business websites in French, Arabic and English, web apps and automation.">
+<meta property="og:title" content="Simo Khadeir · Multilingual Web Developer">
+<meta property="og:description" content="Business websites in French, Arabic and English, web apps and automation.">
+<meta property="og:image" content="/img/demo-fr.jpg">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@500;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: one calm column; work shown as real screenshots; French/Arabic/English as the recurring motif. */
+:root {
+  --paper: #F3F4F8; --surface: #FFFFFF; --ink: #151827; --muted: #596078; --line: #DADDE7;
+  --accent: #2B48D4; --accent-soft: #E3E8FF; --sun: #E3A20B;
+  --display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  --body: 'Instrument Sans', 'Segoe UI', system-ui, sans-serif;
+  --arabic: 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #0D1020; --surface: #151a2e; --ink: #E9EBF4; --muted: #9CA3BC; --line: #262c45;
+  --accent: #8197FF; --accent-soft: #1d2550; --sun: #F0B429; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #0D1020; --surface: #151a2e; --ink: #E9EBF4; --muted: #9CA3BC; --line: #262c45;
+  --accent: #8197FF; --accent-soft: #1d2550; --sun: #F0B429; color-scheme: dark }
+
+* { box-sizing: border-box; }
+html { color-scheme: light; }
+@media (prefers-color-scheme: dark) { html { color-scheme: dark; } }
+body { margin: 0; }
+img { max-width: 100%; }
+body { background: var(--paper); color: var(--ink); font: 16px/1.6 var(--body); }
+.wrap { max-width: 1060px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+a { color: var(--accent); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+h1, h2, h3 { font-family: var(--display); line-height: 1.1; text-wrap: balance; margin: 0; }
+p { margin: 0; }
+.ar { font-family: var(--arabic); }
+html:not([data-l="fr"]) .fr, html[data-l="fr"] .en { display: none; }
+
+/* top bar */
+.top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-block: 20px; }
+.mark { font-family: var(--display); font-weight: 800; font-size: 18px; letter-spacing: -0.01em; }
+.mark span { color: var(--accent); }
+.lang { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; background: var(--surface); }
+.lang button { font: 600 13px var(--body); border: 0; background: transparent; color: var(--muted); padding: 6px 12px; border-radius: 999px; cursor: pointer; }
+.lang button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+
+/* hero */
+.hero { padding-block: clamp(28px, 6vw, 72px) clamp(36px, 6vw, 64px); display: grid; gap: 24px; }
+.eyebrow { font: 500 13px var(--mono); color: var(--muted); letter-spacing: 0.02em; }
+.hero h1 { font-size: clamp(36px, 6.4vw, 72px); font-weight: 800; letter-spacing: -0.025em; max-width: 15ch; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.tongues { display: flex; flex-wrap: wrap; gap: 10px; }
+.tongues span { border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 6px 12px; font-weight: 600; font-size: 15px; }
+.tongues .ar { font-size: 16px; }
+.lede { font-size: clamp(17px, 2vw, 19px); color: var(--muted); max-width: 60ch; }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; font: 600 15px var(--body); text-decoration: none; padding: 12px 18px; border-radius: 12px; border: 1px solid var(--line); color: var(--ink); background: var(--surface); }
+.btn.main { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+section { padding-block: clamp(36px, 6vw, 64px); border-top: 1px solid var(--line); }
+.sec-head { display: grid; gap: 8px; margin-bottom: 28px; }
+.sec-head h2 { font-size: clamp(26px, 3.6vw, 38px); font-weight: 800; letter-spacing: -0.02em; }
+.sec-head p { color: var(--muted); max-width: 60ch; }
+
+/* services */
+.services { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.service { padding: 22px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); display: grid; gap: 10px; align-content: start; }
+.service h3 { font-size: 20px; font-weight: 600; }
+.service p { color: var(--muted); font-size: 15px; }
+
+/* work */
+.work { display: grid; gap: 22px; }
+.project { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 28px; align-items: center; padding: clamp(18px, 3vw, 32px); background: var(--surface); border: 1px solid var(--line); border-radius: 20px; }
+.project.text-only { grid-template-columns: 1fr; }
+.project .info { display: grid; gap: 12px; min-width: 0; }
+.kicker { font: 500 12px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.project h3 { font-size: clamp(22px, 2.8vw, 30px); font-weight: 800; letter-spacing: -0.015em; }
+.project p { color: var(--muted); }
+.project ul { margin: 0; padding-left: 18px; color: var(--ink); display: grid; gap: 4px; font-size: 15px; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tags span { font: 500 12px var(--mono); background: var(--accent-soft); color: var(--ink); padding: 4px 8px; border-radius: 6px; }
+.status { justify-self: start; font: 600 12px var(--body); padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+.status.live { color: var(--ink); border-color: var(--sun); }
+.links { display: flex; flex-wrap: wrap; gap: 14px; font-weight: 600; font-size: 15px; }
+.phones { display: flex; gap: 14px; justify-content: center; }
+.phones figure { margin: 0; display: grid; gap: 8px; justify-items: center; flex: 1 1 0; max-width: 230px; min-width: 0; }
+.phones img { width: 100%; border-radius: 22px; border: 6px solid var(--ink); display: block; }
+.phones figcaption, .shot figcaption { font: 500 12px var(--mono); color: var(--muted); text-align: center; }
+.shot { margin: 0; display: grid; gap: 8px; min-width: 0; }
+.shot img { width: 100%; border-radius: 12px; border: 1px solid var(--line); display: block; }
+.minor { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; }
+.minor .project { grid-template-columns: 1fr; align-items: start; }
+
+/* process */
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; counter-reset: s; }
+.step { padding-top: 16px; border-top: 3px solid var(--accent); display: grid; gap: 8px; }
+.step::before { counter-increment: s; content: "0" counter(s); font: 500 13px var(--mono); color: var(--accent); }
+.step h3 { font-size: 19px; font-weight: 600; }
+.step p { color: var(--muted); font-size: 15px; }
+
+/* about + skills */
+.about { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 32px; }
+.about p + p { margin-top: 12px; }
+.skillset { display: grid; gap: 16px; }
+.skillset h3 { font: 600 13px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+
+/* contact */
+.contact { display: grid; gap: 18px; padding: clamp(24px, 4vw, 44px); border-radius: 22px; background: var(--ink); color: var(--paper); }
+.contact h2 { font-size: clamp(26px, 4vw, 42px); font-weight: 800; letter-spacing: -0.02em; }
+.contact p { color: color-mix(in srgb, var(--paper) 75%, transparent); max-width: 55ch; }
+.contact .btn { background: transparent; color: var(--paper); border-color: color-mix(in srgb, var(--paper) 30%, transparent); }
+.contact .btn.main { background: var(--sun); border-color: var(--sun); color: #1b1606; }
+footer { padding-block: 28px 40px; color: var(--muted); font-size: 13px; }
+
+@media (max-width: 760px) {
+  .project, .about { grid-template-columns: 1fr; }
+  .project .phones { order: -1; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .btn { transition: transform .15s ease; } .btn:hover { transform: translateY(-1px); }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="mark">simo<span>.</span>khadeir</div>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" id="l-en" data-set="en" aria-pressed="true">EN</button>
+      <button type="button" id="l-fr" data-set="fr" aria-pressed="false">FR</button>
+    </div>
+  </header>
+
+  <div class="hero">
+    <p class="eyebrow">Mohammed Khadeir (Simo) · <span class="en">Web developer · Morocco</span><span class="fr">Développeur web · Maroc</span></p>
+    <h1><span class="en">Websites and web apps that speak <em>your customers' language</em>.</span><span class="fr">Des sites et applis web qui parlent <em>la langue de vos clients</em>.</span></h1>
+    <div class="tongues" aria-label="Languages">
+      <span lang="fr">Français</span><span lang="ar" dir="rtl" class="ar">العربية</span><span lang="en">English</span>
+    </div>
+    <p class="lede"><span class="en">I build fast, mobile-first websites for small businesses, in French, Arabic (right-to-left done properly) and English, plus web apps and automations that save you hours. You see a working preview before you pay anything.</span><span class="fr">Je crée des sites rapides et pensés pour le mobile pour les petites entreprises, en français, en arabe (lecture de droite à gauche bien gérée) et en anglais, ainsi que des applications web et des automatisations qui vous font gagner du temps. Vous voyez un aperçu fonctionnel avant de payer quoi que ce soit.</span></p>
+    <div class="cta">
+      <a class="btn main" href="#contact"><span class="en">Work with me</span><span class="fr">Travailler avec moi</span></a>
+      <a class="btn" href="#work"><span class="en">See my work</span><span class="fr">Voir mes projets</span></a>
+    </div>
+  </div>
+
+  <section id="services">
+    <div class="sec-head">
+      <h2><span class="en">What I can build for you</span><span class="fr">Ce que je peux réaliser pour vous</span></h2>
+    </div>
+    <div class="services">
+      <div class="service">
+        <h3><span class="en">Business websites</span><span class="fr">Sites vitrines</span></h3>
+        <p><span class="en">One-page or multi-page sites for shops, agencies, riads, salons and services. Click-to-call, WhatsApp, Google Maps directions and opening hours built in. Available in up to three languages.</span><span class="fr">Sites d'une ou plusieurs pages pour commerces, agences, riads, salons et prestataires. Appel en un clic, WhatsApp, itinéraire Google Maps et horaires intégrés. Jusqu'à trois langues.</span></p>
+      </div>
+      <div class="service">
+        <h3><span class="en">Web apps and dashboards</span><span class="fr">Applications web et tableaux de bord</span></h3>
+        <p><span class="en">Tools your team uses every day: trackers, dashboards, forms, CSV export, dark mode, working on phone and desktop.</span><span class="fr">Des outils que votre équipe utilise au quotidien : suivi, tableaux de bord, formulaires, export CSV, mode sombre, sur téléphone comme sur ordinateur.</span></p>
+      </div>
+      <div class="service">
+        <h3><span class="en">Automation and bots</span><span class="fr">Automatisation et bots</span></h3>
+        <p><span class="en">Scheduled scripts that collect data, generate pages, take screenshots and send alerts (GitHub Actions, Node.js, Discord webhooks).</span><span class="fr">Des scripts planifiés qui collectent des données, génèrent des pages, prennent des captures et envoient des alertes (GitHub Actions, Node.js, webhooks Discord).</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="sec-head">
+      <h2><span class="en">Selected work</span><span class="fr">Projets choisis</span></h2>
+      <p><span class="en">Real projects I designed and built. Screenshots are taken from the running code.</span><span class="fr">De vrais projets que j'ai conçus et développés. Les captures viennent du code en fonctionnement.</span></p>
+    </div>
+    <div class="work">
+      <article class="project">
+        <div class="info">
+          <span class="kicker">Darna Web · 2026</span>
+          <h3><span class="en">Website engine for local businesses</span><span class="fr">Moteur de sites pour commerces locaux</span></h3>
+          <p><span class="en">An automated pipeline that finds businesses without a website, builds each one a personalised demo site in French, Arabic and English, publishes it, and prepares the outreach message. It runs every day on its own.</span><span class="fr">Une chaîne automatisée qui trouve les entreprises sans site web, crée pour chacune un site de démonstration personnalisé en français, arabe et anglais, le publie et prépare le message de prise de contact. Elle tourne seule chaque jour.</span></p>
+          <ul>
+            <li><span class="en">Searches OpenStreetMap in 8 countries and ranks leads by how reachable and valuable they are</span><span class="fr">Recherche sur OpenStreetMap dans 8 pays et classe les prospects selon leur intérêt</span></li>
+            <li><span class="en">Trilingual sites with full right-to-left Arabic layout and opening hours parsed from raw data</span><span class="fr">Sites trilingues avec mise en page arabe de droite à gauche et horaires extraits des données brutes</span></li>
+            <li><span class="en">Daily run on GitHub Actions, deploy to Vercel, phone screenshots with Playwright</span><span class="fr">Exécution quotidienne sur GitHub Actions, déploiement sur Vercel, captures mobiles avec Playwright</span></li>
+          </ul>
+          <div class="tags"><span>Node.js</span><span>GitHub Actions</span><span>Vercel</span><span>Playwright</span><span>Overpass API</span><span>i18n / RTL</span></div>
+          <span class="status live"><span class="en">In production · code private</span><span class="fr">En production · code privé</span></span>
+        </div>
+        <div class="phones">
+          <figure><img src="/img/demo-fr.jpg" alt="Demo site for a sample driving school in French, on a phone" width="390" height="760"><figcaption>Français</figcaption></figure>
+          <figure><img src="/img/demo-ar.jpg" alt="The same demo site in Arabic, laid out right to left" width="390" height="760"><figcaption lang="ar" class="ar">العربية</figcaption></figure>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="info">
+          <span class="kicker">Ledger · 2026</span>
+          <h3><span class="en">Student expense tracker</span><span class="fr">Suivi de dépenses étudiant</span></h3>
+          <p><span class="en">A budgeting app that looks and feels like a real SaaS product, written in plain HTML, CSS and JavaScript with no framework and no backend.</span><span class="fr">Une appli de budget qui a l'allure d'un vrai produit SaaS, écrite en HTML, CSS et JavaScript, sans framework ni serveur.</span></p>
+          <ul>
+            <li><span class="en">Dashboard with charts, monthly budget and progress bar</span><span class="fr">Tableau de bord avec graphiques, budget mensuel et barre de progression</span></li>
+            <li><span class="en">Search, filters, sorting and CSV export</span><span class="fr">Recherche, filtres, tri et export CSV</span></li>
+            <li><span class="en">Dark and light themes, sidebar on desktop, tab bar on mobile</span><span class="fr">Thèmes clair et sombre, barre latérale sur ordinateur, onglets sur mobile</span></li>
+          </ul>
+          <div class="tags"><span>JavaScript</span><span>Chart.js</span><span>CSS Grid</span><span>localStorage</span></div>
+          <div class="links"><a href="https://github.com/mkhadeir-afk/ledger-expense-tracker" target="_blank" rel="noopener"><span class="en">Source on GitHub</span><span class="fr">Code sur GitHub</span></a></div>
+        </div>
+        <figure class="shot"><img src="/img/ledger.jpg" alt="Ledger transactions page with search, filters and a list of income and expenses" width="1600" height="950"><figcaption><span class="en">Transactions view</span><span class="fr">Vue des transactions</span></figcaption></figure>
+      </article>
+
+      <div class="minor">
+        <article class="project">
+          <div class="info">
+            <span class="kicker">ESISA · <span class="en">semester project</span><span class="fr">projet de semestre</span> · 2026</span>
+            <h3><span class="en">Contextual translation assistant</span><span class="fr">Assistant de traduction contextuel</span></h3>
+            <p><span class="en">A translator written in C that sends text to AI APIs and returns three styles (literal, natural, professional), with a personal glossary and full history stored locally.</span><span class="fr">Un traducteur écrit en C qui interroge des API d'IA et propose trois styles (littéral, naturel, professionnel), avec un glossaire personnel et un historique stockés en local.</span></p>
+            <div class="tags"><span>C11</span><span>libcurl</span><span>SQLite</span><span>cJSON</span><span>REST APIs</span></div>
+            <div class="links"><a href="https://github.com/mkhadeir-afk/projet-fin-de-semestre" target="_blank" rel="noopener"><span class="en">Source on GitHub</span><span class="fr">Code sur GitHub</span></a></div>
+          </div>
+        </article>
+        <article class="project">
+          <div class="info">
+            <span class="kicker">RunnerScope · 2026</span>
+            <h3><span class="en">Real-time market scanner</span><span class="fr">Scanner de marché en temps réel</span></h3>
+            <p><span class="en">A TypeScript bot that watches new tokens on the Solana blockchain as they launch, runs risk checks (liquidity, holder concentration, bundled wallets) and posts alerts to Discord.</span><span class="fr">Un bot TypeScript qui surveille les nouveaux tokens sur la blockchain Solana dès leur lancement, applique des contrôles de risque (liquidité, concentration des détenteurs, portefeuilles groupés) et envoie des alertes sur Discord.</span></p>
+            <div class="tags"><span>TypeScript</span><span>Node.js</span><span>Helius RPC</span><span>Discord webhooks</span></div>
+            <span class="status"><span class="en">Personal project</span><span class="fr">Projet personnel</span></span>
+          </div>
+        </article>
+        <article class="project">
+          <div class="info">
+            <span class="kicker">CampusTrack · 2026</span>
+            <h3><span class="en">Campus France application tracker</span><span class="fr">Suivi des candidatures Campus France</span></h3>
+            <p><span class="en">A web app that helps Moroccan students track their study-in-France applications, documents and deadlines in one place.</span><span class="fr">Une application web qui aide les étudiants marocains à suivre leurs candidatures pour étudier en France, leurs documents et leurs échéances au même endroit.</span></p>
+            <span class="status"><span class="en">In progress</span><span class="fr">En cours</span></span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="process">
+    <div class="sec-head">
+      <h2><span class="en">How we work together</span><span class="fr">Comment on travaille ensemble</span></h2>
+    </div>
+    <div class="steps">
+      <div class="step"><h3><span class="en">A preview first</span><span class="fr">D'abord un aperçu</span></h3><p><span class="en">Send me your business details. I build a working preview of your site so you can judge the real thing, not a mockup.</span><span class="fr">Envoyez-moi vos informations. Je construis un aperçu fonctionnel de votre site pour que vous jugiez sur du concret, pas sur une maquette.</span></p></div>
+      <div class="step"><h3><span class="en">Changes until it's right</span><span class="fr">Des retouches jusqu'à ce que ce soit parfait</span></h3><p><span class="en">Your photos, your prices, your colours. Tell me what to change and I adjust it.</span><span class="fr">Vos photos, vos tarifs, vos couleurs. Dites-moi quoi changer et je l'ajuste.</span></p></div>
+      <div class="step"><h3><span class="en">Online under your name</span><span class="fr">En ligne à votre nom</span></h3><p><span class="en">The site goes live on your domain. You pay once it's online and you're happy with it.</span><span class="fr">Le site est mis en ligne sur votre domaine. Vous payez une fois qu'il est en ligne et qu'il vous convient.</span></p></div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="about">
+      <div>
+        <div class="sec-head"><h2><span class="en">About me</span><span class="fr">À propos</span></h2></div>
+        <p><span class="en">I'm Mohammed Khadeir, known as Simo, a computer science student at ESISA in Morocco. I run Darna Web, where I build websites for local businesses, and I spend my free time building tools like the ones above.</span><span class="fr">Je suis Mohammed Khadeir, alias Simo, étudiant en informatique à l'ESISA au Maroc. Je gère Darna Web, où je crée des sites pour les entreprises locales, et je consacre mon temps libre à construire des outils comme ceux présentés ci-dessus.</span></p>
+        <p><span class="en">I work in French, English and Arabic (including Moroccan Darija), so I can talk to your customers in their language and to you in yours.</span><span class="fr">Je travaille en français, en anglais et en arabe (y compris la darija marocaine) : je peux parler à vos clients dans leur langue, et à vous dans la vôtre.</span></p>
+      </div>
+      <div class="skillset">
+        <div><h3>Front-end</h3><div class="tags"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>TypeScript</span><span>React</span><span>Astro</span></div></div>
+        <div><h3>Back-end</h3><div class="tags"><span>Node.js</span><span>Express</span><span>MongoDB</span><span>SQLite</span><span>C</span></div></div>
+        <div><h3><span class="en">Tools</span><span class="fr">Outils</span></h3><div class="tags"><span>Git</span><span>GitHub Actions</span><span>Vercel</span><span>Playwright</span><span>Figma</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" style="border-top:0">
+    <div class="contact">
+      <h2><span class="en">Have a project in mind?</span><span class="fr">Un projet en tête ?</span></h2>
+      <p><span class="en">I take projects through Fiverr, where your payment is protected until you're happy with the result. Send me a message there and tell me about your business.</span><span class="fr">Je travaille via Fiverr, où votre paiement est protégé jusqu'à ce que le résultat vous convienne. Écrivez-moi là-bas et parlez-moi de votre activité.</span></p>
+      <div class="cta">
+        <a class="btn main" id="fiverr-link" href="https://www.fiverr.com/" target="_blank" rel="noopener"><span class="en">Hire me on Fiverr</span><span class="fr">Me contacter sur Fiverr</span></a>
+        <a class="btn" href="https://github.com/mkhadeir-afk" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>© 2026 Mohammed Khadeir · Darna Web</footer>
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  function setLang(l) {
+    root.setAttribute('data-l', l);
+    root.lang = l;
+    document.getElementById('l-en').setAttribute('aria-pressed', l === 'en');
+    document.getElementById('l-fr').setAttribute('aria-pressed', l === 'fr');
+  }
+  setLang(location.hash === '#fr' ? 'fr' : 'en');
+  document.querySelectorAll('.lang button').forEach(function (b) {
+    b.addEventListener('click', function () { setLang(b.dataset.set); });
+  });
+  window.addEventListener('hashchange', function () { if (location.hash === '#fr' || location.hash === '#en') setLang(location.hash.slice(1)); });
+})();
+</script>
+
+</body>
+</html>
